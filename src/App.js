@@ -31,6 +31,12 @@ class App extends Component {
     })
   }
 
+  onPlayerRemove = (name) => {
+    this.setState({
+      players: this.state.players.filter((player) => (player.name !== name))
+    });
+  }
+
   onScoreUpdate = (playerIndex, scoreChange) => {
     this.setState({
       players: this.state.players.map((player, index) => {
@@ -46,7 +52,10 @@ class App extends Component {
     return (
       <div className="App">
         <AddPlayer onPlayerAdd={this.onPlayerAdd} />
-        <PlayersList players={this.state.players} onScoreUpdate={this.onScoreUpdate} />
+        <PlayersList 
+          players={this.state.players} 
+          onScoreUpdate={this.onScoreUpdate}
+          onPlayerRemove={this.onPlayerRemove} />
       </div>
     );
   }
