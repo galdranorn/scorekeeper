@@ -1,7 +1,7 @@
 import PlayersList from './PlayersList';
 import Player from '../Player/Player';
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 it('renders without crashing', () => {
     shallow(<PlayersList players={[]} />);
@@ -34,11 +34,11 @@ it('onScoreUpdate is called', () => {
             score: 0
         }
     ]
-    const playerComponent = shallow(<PlayersList players={players} />);
     const mockedOnScoreUpdate = jest.fn();
+    const playerComponent = shallow(<PlayersList players={players} onScoreUpdate={mockedOnScoreUpdate} />);
     const firstPlayer = playerComponent.find(Player).first();
     const onPlayerScoreChange = firstPlayer.prop('onPlayerScoreChange');
-    onPlayerScoreChange(0, 10);
+    onPlayerScoreChange(10);
     expect(mockedOnScoreUpdate).toBeCalledWith(0, 10);
 });
 
@@ -53,10 +53,11 @@ it('onPlayerRemove is called', () => {
             score: 0
         }
     ]
-    const playerComponent = shallow(<PlayersList players={players} />);
     const mockedOnPlayerRemove = jest.fn();
+    const playerComponent = shallow(<PlayersList players={players} onPlayerRemove={mockedOnPlayerRemove} />);
     const firstPlayer = playerComponent.find(Player).first();
     const onPlayerRemove = firstPlayer.prop('onPlayerRemove');
+    const name = players[0].name;
     onPlayerRemove(0);
-    expect(mockedOnPlayerRemove).toBeCalledWith(0, 10);
+    expect(mockedOnPlayerRemove).toBeCalledWith(name);
 });
